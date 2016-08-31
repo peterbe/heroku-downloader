@@ -16,8 +16,8 @@ _UAS = (
     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:46.1) '
     'Gecko/20100101 Firefox/46.1',
 
-    'Mozilla/5.0 (iPhone; CPU iPhone OS 9_3_3 like Mac OS X) AppleWebKit/601'
-    '.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13G34 Safari/601.2',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 '
+    '(KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36',
 
     'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:47.0) Gecko/20100101 '
     'Firefox/47.1',
