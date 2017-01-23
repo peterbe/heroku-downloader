@@ -60,7 +60,7 @@ def download():
         })
     return jsonify({
         'url': url,
-        'html': str(r.content),
+        'html': r.content.decode('utf-8'),
     })
 
 
