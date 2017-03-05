@@ -10,23 +10,28 @@ DEBUG = os.environ.get('DEBUG', False) in ('true', '1', 'y', 'yes')
 app.debug = DEBUG
 
 _UAS = (
-    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/601.7.7 '
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_7) AppleWebKit/601.7.7 '
     '(KHTML, like Gecko) Version/9.1.2 Safari/601.7.7',
 
-    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:46.1) '
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:46.2) '
     'Gecko/20100101 Firefox/46.1',
 
-    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 '
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 '
     '(KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36',
 
-    'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:47.0) Gecko/20100101 '
-    'Firefox/47.1',
+    'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:48.0) Gecko/20100101 '
+    'Firefox/48.1',
 
-    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:50.1) Gecko/20100101 '
-    'Firefox/50.1',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:51.1) Gecko/20100101 '
+    'Firefox/51.1',
 )
 
-def realistic_request(url, verify=True, no_user_agent=False):
+def realistic_request(
+    url,
+    verify=True,
+    no_user_agent=False,
+    allow_redirect=True
+):
     headers = {
         'Accept': (
             'text/html,application/xhtml+xml,application/xml,text/xml'
@@ -39,7 +44,18 @@ def realistic_request(url, verify=True, no_user_agent=False):
     }
     if no_user_agent:
         headers.pop('User-Agent')
-    return requests.get(url, headers=headers, verify=verify)
+    response = requests.get(
+        url, headers=headers, verify=verify, allow_redirects=False
+    )
+    if response.status_code == 302 or response.status_code == 301:
+        if allow_redirect:
+            return realistic_request(
+                url,
+                verify=verify,
+                no_user_agent=no_user_agent,
+                allow_redirect=False
+            )
+    return response
 
 
 @app.route("/")
